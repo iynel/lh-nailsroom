@@ -1,0 +1,157 @@
+/* MOBILE FIRST */
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffe5ef;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* CARTE */
+.card {
+    width: 90%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.title {
+    color: #d0468c;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* INPUTS */
+.input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid #f7c5d7;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+/* BOUTONS */
+.btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #e567a3;
+    color: white;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #bf4d87;
+}
+
+.reset {
+    background: #7d7d7d;
+}
+
+/* TAMPONS EXACTEMENT COMME TON STYLE */
+.stamp-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cases par ligne */
+    gap: 12px;
+    justify-items: center;
+    margin: 15px 0;
+}
+
+.stamp {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    border: 2px dashed #d0468c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    margin: 5px;
+}
+
+.stamp.active {
+    background: #ffc0db;
+    border: 2px solid #d0468c;
+    transform: scale(1.05);
+}
+
+.reward-msg {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: #d0468c;
+    background: #ffe5ef;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #f7c5d7;
+}
+
+/* Résultats de recherche dans l'espace pro */
+#proResults {
+    margin-top: 12px;
+}
+
+/* Style d'un résultat (cliente trouvée) */
+.search-item {
+    background: #ffe6f2;                     /* rose clair */
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid #e567a3;               /* ton rose principal */
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #d0468c;
+    cursor: pointer;                         /* curseur main */
+    transition: 0.25s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);   /* petite ombre douce */
+}
+
+/* Effet hover */
+.search-item:hover {
+    background: #ffd1e8;                     /* rose un peu plus vif */
+    transform: translateY(-3px);             /* petit effet de “soulèvement” */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    border-color: #bf4d87;                   /* rose foncé hover */
+}
+
+
+#proSearch {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+.input {
+    width: 100%;
+    box-sizing: border-box; /* empêche le dépassement */
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid #f7c5d7;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #e567a3;
+    box-shadow: 0 0 8px rgba(229, 103, 163, 0.4);
+    transition: 0.2s;
+}
