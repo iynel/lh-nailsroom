@@ -134,7 +134,7 @@ async function showClientCard(id) {
 // ─────────────────────────────────────────
 // 🧑‍💼 PRO : LOGIN
 // ─────────────────────────────────────────
-const PRO_PASSWORD = "1234";
+const PRO_PASSWORD = "Linahassani1234";
 
 window.loginPro = function () {
     let pwd = document.getElementById("proPassword").value;
