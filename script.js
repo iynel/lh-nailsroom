@@ -1,3 +1,21 @@
+/* ----------------------------
+      INITIALISATION FIREBASE
+-----------------------------*/
+const firebaseConfig = {
+    apiKey: "TA_CLE_ICI",
+    authDomain: "TA_CLE_ICI",
+    projectId: "TA_CLE_ICI",
+    storageBucket: "TA_CLE_ICI",
+    messagingSenderId: "TA_CLE_ICI",
+    appId: "TA_CLE_ICI"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* ----------------------------
+     SYSTEME DES TAMPONS
+-----------------------------*/
 const STAMPS = {
     1: "💅",
     2: "🎀",
@@ -6,18 +24,12 @@ const STAMPS = {
     5: "💕",
     6: "🫦",
     7: "🎀",
-    8: "💅" // cadeau
+    8: "💅"
 };
 
-let clients = JSON.parse(localStorage.getItem("clients")) || {};
-const PRO_PASSWORD = "1234";
-
-/* ----------- FONCTIONS UTILITAIRES ----------- */
-function save() {
-    localStorage.setItem("clients", JSON.stringify(clients));
-}
-
-/* ----------- NAVIGATION ----------- */
+/* ----------------------------
+       NAVIGATION
+-----------------------------*/
 function goHome() {
     document.getElementById("choiceSection").style.display = "block";
     document.getElementById("clientSection").style.display = "none";
@@ -28,23 +40,22 @@ function goHome() {
     document.getElementById("email").value = "";
 
     document.getElementById("clientCard").style.display = "none";
-
-    document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
-        stamp.textContent = "";
-        stamp.classList.remove("active");
-    });
-
-    document.getElementById("proSearch").value = "";
-    document.getElementById("proResults").innerHTML = "";
 }
 
-/* ----------- ESPACE CLIENTE ----------- */
 function showClient() {
     document.getElementById("choiceSection").style.display = "none";
     document.getElementById("clientSection").style.display = "block";
 }
 
-function loginOrCreateClient() {
+function showPro() {
+    document.getElementById("choiceSection").style.display = "none";
+    document.getElementById("proSection").style.display = "block";
+}
+
+/* ----------------------------
+       LOGIN / CREATE CLIENT
+-----------------------------*/
+async function loginOrCreateClient() {
     let prenom = document.getElementById("prenom").value.trim();
     let nom = document.getElementById("nom").value.trim();
     let email = document.getElementById("email").value.trim().toLowerCase();
@@ -54,26 +65,37 @@ function loginOrCreateClient() {
         return;
     }
 
+    // Chercher si la cliente existe
+    let query = await db.collection("clients")
+        .where("prenom", "==", prenom)
+        .where("nom", "==", nom)
+        .where("email", "==", email)
+        .get();
+
     let id = null;
 
-    for (let key in clients) {
-        let c = clients[key];
-        if (c.prenom === prenom && c.nom === nom && c.email === email) {
-            id = key;
-        }
-    }
-
-    if (!id) {
-        id = Date.now().toString();
-        clients[id] = { prenom, nom, email, tampons: 0 };
-        save();
+    if (!query.empty) {
+        id = query.docs[0].id;
+    } else {
+        // Ajouter une nouvelle cliente
+        let newClient = await db.collection("clients").add({
+            prenom,
+            nom,
+            email,
+            tampons: 0
+        });
+        id = newClient.id;
     }
 
     showClientCard(id);
 }
 
-function showClientCard(id) {
-    let c = clients[id];
+/* ----------------------------
+       AFFICHAGE CARTE CLIENT
+-----------------------------*/
+async function showClientCard(id) {
+    let doc = await db.collection("clients").doc(id).get();
+    let c = doc.data();
 
     document.getElementById("clientCard").style.display = "block";
     document.getElementById("clientName").textContent = c.prenom + " " + c.nom;
@@ -86,11 +108,10 @@ function showClientCard(id) {
     });
 }
 
-/* ----------- ESPACE PRO ----------- */
-function showPro() {
-    document.getElementById("choiceSection").style.display = "none";
-    document.getElementById("proSection").style.display = "block";
-}
+/* ----------------------------
+      PRO : CONNEXION
+-----------------------------*/
+const PRO_PASSWORD = "1234";
 
 function loginPro() {
     if (document.getElementById("proPassword").value !== PRO_PASSWORD) {
@@ -107,14 +128,20 @@ function logoutPro() {
     location.reload();
 }
 
-/* ----------- RECHERCHE CLIENTE ----------- */
-function searchClients() {
+/* ----------------------------
+      PRO : RECHERCHE CLIENT
+-----------------------------*/
+async function searchClients() {
     let search = document.getElementById("proSearch").value.toLowerCase();
     let results = document.getElementById("proResults");
     results.innerHTML = "";
 
-    for (let id in clients) {
-        let c = clients[id];
+    let clients = await db.collection("clients").get();
+
+    clients.forEach(doc => {
+        let c = doc.data();
+        let id = doc.id;
+
         let full = (c.prenom + " " + c.nom + " " + c.email).toLowerCase();
 
         if (full.includes(search)) {
@@ -124,14 +151,18 @@ function searchClients() {
             div.onclick = () => selectProClient(id);
             results.appendChild(div);
         }
-    }
+    });
 }
 
-function selectProClient(id) {
-    let c = clients[id];
+/* ----------------------------
+      PRO : AFFICHAGE CLIENT
+-----------------------------*/
+async function selectProClient(id) {
+    let doc = await db.collection("clients").doc(id).get();
+    let c = doc.data();
 
     document.getElementById("selectedClientId").value = id;
-    document.getElementById("proClientName").textContent = c.prenom + " " + c.nom;
+    document.getElementById("proClientName").textContent = `${c.prenom} ${c.nom}`;
     document.getElementById("proStampCount").textContent = c.tampons;
 
     document.querySelectorAll("#proDashboard .stamp").forEach(stamp => {
@@ -141,38 +172,42 @@ function selectProClient(id) {
     });
 }
 
-/* ----------- GESTION TAMPONS ----------- */
-function addStamp() {
+/* ----------------------------
+      PRO : AJOUT / RESET
+-----------------------------*/
+async function addStamp() {
     let id = document.getElementById("selectedClientId").value;
-    if (!id) return alert("Sélectionnez une cliente");
+    let doc = await db.collection("clients").doc(id).get();
+    let current = doc.data().tampons;
 
-    clients[id].tampons = Math.min(8, clients[id].tampons + 1);
-    save();
+    await db.collection("clients").doc(id).update({
+        tampons: Math.min(8, current + 1)
+    });
+
     selectProClient(id);
 }
 
-function resetCard() {
+async function resetCard() {
     let id = document.getElementById("selectedClientId").value;
-    if (!id) return alert("Sélectionnez une cliente");
 
-    clients[id].tampons = 0;
-    save();
+    await db.collection("clients").doc(id).update({
+        tampons: 0
+    });
+
     selectProClient(id);
 }
 
-/* ----------- SUPPRESSION CLIENTE ----------- */
-function deleteClient() {
+/* ----------------------------
+      PRO : SUPPRESSION CLIENT
+-----------------------------*/
+async function deleteClient() {
     let id = document.getElementById("selectedClientId").value;
 
-    if (!id) return alert("Sélectionnez une cliente");
+    if (!confirm("Supprimer cette cliente ?")) return;
 
-    if (!confirm("Supprimer définitivement cette cliente ?")) return;
-
-    delete clients[id];
-    save();
+    await db.collection("clients").doc(id).delete();
 
     alert("Cliente supprimée.");
-
     document.getElementById("proClientName").textContent = "";
     document.getElementById("proStampCount").textContent = "";
     document.getElementById("proResults").innerHTML = "";
