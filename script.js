@@ -1,19 +1,18 @@
 /* ----------------------------
-      INITIALISATION FIREBASE
+      CONFIG FIREBASE
 -----------------------------*/
-  const firebaseConfig = {
-    apiKey: "AIzaSyByz6_IgraCBmMJSw0Z1DQno760bTPWVQ0",
-    authDomain: "lh-nailsroom.firebaseapp.com",
-    projectId: "lh-nailsroom",
-    storageBucket: "lh-nailsroom.firebasestorage.app",
-    messagingSenderId: "147376012584",
-    appId: "1:147376012584:web:a934c3901931d9519ea41d",
-    measurementId: "G-6BYHZ8SN14"
-  };
+const firebaseConfig = {
+    apiKey: "TA_CLE",
+    authDomain: "TON_PROJET.firebaseapp.com",
+    projectId: "TON_PROJET",
+    storageBucket: "TON_PROJET.appspot.com",
+    messagingSenderId: "XXXXXXX",
+    appId: "XXXXXXX"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+// Initialisation Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 /* ----------------------------
      SYSTEME DES TAMPONS
@@ -33,15 +32,7 @@ const STAMPS = {
        NAVIGATION
 -----------------------------*/
 function goHome() {
-    document.getElementById("choiceSection").style.display = "block";
-    document.getElementById("clientSection").style.display = "none";
-    document.getElementById("proSection").style.display = "none";
-
-    document.getElementById("prenom").value = "";
-    document.getElementById("nom").value = "";
-    document.getElementById("email").value = "";
-
-    document.getElementById("clientCard").style.display = "none";
+    location.reload();
 }
 
 function showClient() {
@@ -55,7 +46,7 @@ function showPro() {
 }
 
 /* ----------------------------
-       LOGIN / CREATE CLIENT
+       CLIENTE : LOGIN/CREATE
 -----------------------------*/
 async function loginOrCreateClient() {
     let prenom = document.getElementById("prenom").value.trim();
@@ -67,37 +58,43 @@ async function loginOrCreateClient() {
         return;
     }
 
-    // Chercher si la cliente existe
-    let query = await db.collection("clients")
-        .where("prenom", "==", prenom)
-        .where("nom", "==", nom)
-        .where("email", "==", email)
-        .get();
+    // Chercher si cliente existe
+    const q = query(
+        collection(db, "clients"),
+        where("prenom", "==", prenom),
+        where("nom", "==", nom),
+        where("email", "==", email)
+    );
 
+    const snap = await getDocs(q);
     let id = null;
 
-    if (!query.empty) {
-        id = query.docs[0].id;
+    if (!snap.empty) {
+        id = snap.docs[0].id;
     } else {
-        // Ajouter une nouvelle cliente
-        let newClient = await db.collection("clients").add({
+        // Nouvelle cliente
+        const newDoc = await addDoc(collection(db, "clients"), {
             prenom,
             nom,
             email,
             tampons: 0
         });
-        id = newClient.id;
+        id = newDoc.id;
     }
 
     showClientCard(id);
 }
 
 /* ----------------------------
-       AFFICHAGE CARTE CLIENT
+      CLIENTE : AFFICHE CARTE
 -----------------------------*/
 async function showClientCard(id) {
-    let doc = await db.collection("clients").doc(id).get();
-    let c = doc.data();
+    const clientRef = doc(db, "clients", id);
+    const clientSnap = await getDoc(clientRef);
+
+    if (!clientSnap.exists()) return;
+
+    let c = clientSnap.data();
 
     document.getElementById("clientCard").style.display = "block";
     document.getElementById("clientName").textContent = c.prenom + " " + c.nom;
@@ -111,7 +108,7 @@ async function showClientCard(id) {
 }
 
 /* ----------------------------
-      PRO : CONNEXION
+       PRO : LOGIN
 -----------------------------*/
 const PRO_PASSWORD = "1234";
 
@@ -126,10 +123,6 @@ function loginPro() {
     document.getElementById("proDashboard").style.display = "block";
 }
 
-function logoutPro() {
-    location.reload();
-}
-
 /* ----------------------------
       PRO : RECHERCHE CLIENT
 -----------------------------*/
@@ -138,15 +131,15 @@ async function searchClients() {
     let results = document.getElementById("proResults");
     results.innerHTML = "";
 
-    let clients = await db.collection("clients").get();
+    const snap = await getDocs(collection(db, "clients"));
 
-    clients.forEach(doc => {
-        let c = doc.data();
-        let id = doc.id;
+    snap.forEach(docu => {
+        let c = docu.data();
+        let id = docu.id;
 
-        let full = (c.prenom + " " + c.nom + " " + c.email).toLowerCase();
+        let text = (c.prenom + " " + c.nom + " " + c.email).toLowerCase();
 
-        if (full.includes(search)) {
+        if (text.includes(search)) {
             let div = document.createElement("div");
             div.className = "search-item";
             div.textContent = `${c.prenom} ${c.nom} (${c.email})`;
@@ -157,14 +150,15 @@ async function searchClients() {
 }
 
 /* ----------------------------
-      PRO : AFFICHAGE CLIENT
+      PRO : VOIR CLIENT
 -----------------------------*/
 async function selectProClient(id) {
-    let doc = await db.collection("clients").doc(id).get();
-    let c = doc.data();
-
     document.getElementById("selectedClientId").value = id;
-    document.getElementById("proClientName").textContent = `${c.prenom} ${c.nom}`;
+
+    const snap = await getDoc(doc(db, "clients", id));
+    let c = snap.data();
+
+    document.getElementById("proClientName").textContent = c.prenom + " " + c.nom;
     document.getElementById("proStampCount").textContent = c.tampons;
 
     document.querySelectorAll("#proDashboard .stamp").forEach(stamp => {
@@ -175,42 +169,40 @@ async function selectProClient(id) {
 }
 
 /* ----------------------------
-      PRO : AJOUT / RESET
+      PRO : AJOUT TAMPON
 -----------------------------*/
 async function addStamp() {
     let id = document.getElementById("selectedClientId").value;
-    let doc = await db.collection("clients").doc(id).get();
-    let current = doc.data().tampons;
+    const ref = doc(db, "clients", id);
 
-    await db.collection("clients").doc(id).update({
-        tampons: Math.min(8, current + 1)
-    });
+    const snap = await getDoc(ref);
+    let current = snap.data().tampons;
 
-    selectProClient(id);
-}
-
-async function resetCard() {
-    let id = document.getElementById("selectedClientId").value;
-
-    await db.collection("clients").doc(id).update({
-        tampons: 0
-    });
+    await updateDoc(ref, { tampons: Math.min(8, current + 1) });
 
     selectProClient(id);
 }
 
 /* ----------------------------
-      PRO : SUPPRESSION CLIENT
+      PRO : RESET
+-----------------------------*/
+async function resetCard() {
+    let id = document.getElementById("selectedClientId").value;
+    await updateDoc(doc(db, "clients", id), { tampons: 0 });
+    selectProClient(id);
+}
+
+/* ----------------------------
+      PRO : SUPPRESSION
 -----------------------------*/
 async function deleteClient() {
     let id = document.getElementById("selectedClientId").value;
 
     if (!confirm("Supprimer cette cliente ?")) return;
 
-    await db.collection("clients").doc(id).delete();
+    await deleteDoc(doc(db, "clients", id));
 
     alert("Cliente supprimée.");
     document.getElementById("proClientName").textContent = "";
-    document.getElementById("proStampCount").textContent = "";
     document.getElementById("proResults").innerHTML = "";
 }
