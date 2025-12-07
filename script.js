@@ -15,12 +15,13 @@ import {
 // 🔥 CONFIG FIREBASE → METS TES VRAIES CLÉS ICI
 // ─────────────────────────────────────────
 const firebaseConfig = {
-    apiKey: "TA_CLE",
-    authDomain: "TON_PROJET.firebaseapp.com",
-    projectId: "TON_PROJET",
-    storageBucket: "TON_PROJET.appspot.com",
-    messagingSenderId: "XXXXX",
-    appId: "XXXXX"
+  apiKey: "AIzaSyByz6_IgraCBmMJSw0Z1DQno760bTPWVQ0",
+  authDomain: "lh-nailsroom.firebaseapp.com",
+  projectId: "lh-nailsroom",
+  storageBucket: "lh-nailsroom.firebasestorage.app",
+  messagingSenderId: "147376012584",
+  appId: "1:147376012584:web:a934c3901931d9519ea41d",
+  measurementId: "G-6BYHZ8SN14"
 };
 
 
