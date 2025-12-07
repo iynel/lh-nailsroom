@@ -101,8 +101,26 @@
         </div>
         
         <!-- Firebase -->
-        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import {
+                getFirestore, collection, addDoc, getDocs, getDoc, doc,
+                updateDoc, deleteDoc, query, where
+            } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        
+            // On expose les fonctions Firebase globalement pour script.js
+            window.initializeApp = initializeApp;
+            window.getFirestore = getFirestore;
+            window.collection = collection;
+            window.addDoc = addDoc;
+            window.getDocs = getDocs;
+            window.getDoc = getDoc;
+            window.doc = doc;
+            window.updateDoc = updateDoc;
+            window.deleteDoc = deleteDoc;
+            window.query = query;
+            window.where = where;
+        </script>
         <script src="script.js"></script>
     </body>
 </html>
