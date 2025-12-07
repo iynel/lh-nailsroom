@@ -18,8 +18,10 @@
         <button class="btn" onclick="showPro()">Prothésiste</button>
     </div>
 
-    <!-- CLIENTE -->
-    <div id="clientSection" style="display:none;">
+        <!-- CLIENTE -->
+<div id="clientSection" style="display:none;">
+    <!-- FORMULAIRE (sera caché après connexion) -->
+    <div id="clientForm">
         <h2 class="title">Espace Cliente</h2>
 
         <input class="input" id="prenom" placeholder="Prénom">
@@ -28,30 +30,31 @@
 
         <button class="btn" onclick="loginOrCreateClient()">Accéder à ma carte</button>
         <button class="btn reset" onclick="goHome()">Retour</button>
+    </div>
 
-        <!-- CARTE FIDÉLITÉ -->
-        <div id="clientCard" style="display:none; margin-top:20px;">
-            <h2 class="title" id="clientName"></h2>
+    <!-- CARTE FIDÉLITÉ -->
+    <div id="clientCard" style="display:none; margin-top:20px;">
+        <h2 class="title" id="clientName"></h2>
 
-            <div class="stamp-container">
-                <div class="stamp" data-num="1"></div>
-                <div class="stamp" data-num="2"></div>
-                <div class="stamp" data-num="3"></div>
-                <div class="stamp" data-num="4"></div>
-                <div class="stamp" data-num="5"></div>
-                <div class="stamp" data-num="6"></div>
-                <div class="stamp" data-num="7"></div>
-                <div class="stamp" data-num="8"></div>
-            </div>
-
-            <p>Tampons : <span id="stampCount">0</span> / 8</p>
-
-            <p class="reward-msg">
-                🎁 Au dernier tampon, vous bénéficiez de <strong>-10€</strong> sur votre prochaine pose !
-            </p>
-
-            <button class="btn reset" onclick="goHome()">Déconnexion</button>
+        <div class="stamp-container">
+            <div class="stamp" data-num="1"></div>
+            <div class="stamp" data-num="2"></div>
+            <div class="stamp" data-num="3"></div>
+            <div class="stamp" data-num="4"></div>
+            <div class="stamp" data-num="5"></div>
+            <div class="stamp" data-num="6"></div>
+            <div class="stamp" data-num="7"></div>
+            <div class="stamp" data-num="8"></div>
         </div>
+    </div>
+
+    <!-- BOUTON DÉCONNEXION EN DEHORS DE LA CARTE -->
+    <button class="btn reset" id="clientLogout" style="display:none; margin-top:25px;" onclick="goHome()">Déconnexion</button>
+</div>
+
+
+    
+        
     </div>
 
     <!-- PRO -->
