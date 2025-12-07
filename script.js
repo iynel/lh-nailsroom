@@ -43,7 +43,7 @@ const STAMPS = {
     5: "💕",
     6: "🫦",
     7: "🎀",
-    8: "-10€�"
+    8: "💅"
 };
 
 
@@ -114,18 +114,14 @@ window.loginOrCreateClient = async function () {
 // ─────────────────────────────────────────
 async function showClientCard(id) {
     const data = await getDoc(doc(db, "clients", id));
+
     if (!data.exists()) return;
 
     let c = data.data();
 
-    // Masquer le formulaire une fois connectée
-    document.getElementById("clientForm").style.display = "none";
-
-    // Afficher la carte
     document.getElementById("clientCard").style.display = "block";
-    document.getElementById("clientLogout").style.display = "block";
-
     document.getElementById("clientName").textContent = `${c.prenom} ${c.nom}`;
+    document.getElementById("stampCount").textContent = c.tampons;
 
     document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
         let n = parseInt(stamp.dataset.num);
@@ -133,7 +129,6 @@ async function showClientCard(id) {
         stamp.classList.toggle("active", n <= c.tampons);
     });
 }
-
 
 
 // ─────────────────────────────────────────
@@ -270,4 +265,3 @@ window.logoutPro = function () {
     document.getElementById("proResults").innerHTML = "";
     document.getElementById("proClientName").textContent = "";
 };
-
