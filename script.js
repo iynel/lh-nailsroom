@@ -241,3 +241,28 @@ window.deleteClient = async function () {
     document.getElementById("proClientName").textContent = "";
     document.getElementById("proResults").innerHTML = "";
 };
+
+
+window.logoutPro = function () {
+    // Masquer le dashboard pro
+    document.getElementById("proDashboard").style.display = "none";
+
+    // Réafficher le champ mot de passe
+    document.getElementById("proPassword").value = "";
+    document.getElementById("proPassword").style.display = "block";
+
+    // Réafficher le bouton connexion
+    document.getElementById("loginProBtn").style.display = "block";
+
+    // Masquer l’espace pro
+    document.getElementById("proSection").style.display = "none";
+
+    // Afficher le choix client / pro
+    document.getElementById("choiceSection").style.display = "block";
+
+    // Reset des infos sélectionnées
+    document.getElementById("selectedClientId").value = "";
+    document.getElementById("proResults").innerHTML = "";
+    document.getElementById("proClientName").textContent = "";
+};
+
