@@ -1,17 +1,19 @@
 /* ----------------------------
       INITIALISATION FIREBASE
 -----------------------------*/
-const firebaseConfig = {
-    apiKey: "TA_CLE_ICI",
-    authDomain: "TA_CLE_ICI",
-    projectId: "TA_CLE_ICI",
-    storageBucket: "TA_CLE_ICI",
-    messagingSenderId: "TA_CLE_ICI",
-    appId: "TA_CLE_ICI"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyByz6_IgraCBmMJSw0Z1DQno760bTPWVQ0",
+    authDomain: "lh-nailsroom.firebaseapp.com",
+    projectId: "lh-nailsroom",
+    storageBucket: "lh-nailsroom.firebasestorage.app",
+    messagingSenderId: "147376012584",
+    appId: "1:147376012584:web:a934c3901931d9519ea41d",
+    measurementId: "G-6BYHZ8SN14"
+  };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
 /* ----------------------------
      SYSTEME DES TAMPONS
