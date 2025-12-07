@@ -1,4 +1,6 @@
-// 🔥 Import Firebase (OBLIGATOIRE avec type="module")
+// ─────────────────────────────────────────
+// 🔥 IMPORTS FIREBASE
+// ─────────────────────────────────────────
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -9,28 +11,29 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
-
-/* ----------------------------
-      CONFIG FIREBASE
------------------------------*/
+// ─────────────────────────────────────────
+// 🔥 CONFIG FIREBASE → METS TES VRAIES CLÉS ICI
+// ─────────────────────────────────────────
 const firebaseConfig = {
-  apiKey: "AIzaSyByz6_IgraCBmMJSw0Z1DQno760bTPWVQ0",
-  authDomain: "lh-nailsroom.firebaseapp.com",
-  projectId: "lh-nailsroom",
-  storageBucket: "lh-nailsroom.firebasestorage.app",
-  messagingSenderId: "147376012584",
-  appId: "1:147376012584:web:a934c3901931d9519ea41d",
-  measurementId: "G-6BYHZ8SN14"
+    apiKey: "TA_CLE",
+    authDomain: "TON_PROJET.firebaseapp.com",
+    projectId: "TON_PROJET",
+    storageBucket: "TON_PROJET.appspot.com",
+    messagingSenderId: "XXXXX",
+    appId: "XXXXX"
 };
 
-// 🔥 Initialisation Firebase
+
+// ─────────────────────────────────────────
+// 🔥 INITIALISATION FIREBASE
+// ─────────────────────────────────────────
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
-/* ----------------------------
-     SYSTEME DES TAMPONS
------------------------------*/
+// ─────────────────────────────────────────
+// 💅 TAMPONS
+// ─────────────────────────────────────────
 const STAMPS = {
     1: "💅",
     2: "🎀",
@@ -42,13 +45,10 @@ const STAMPS = {
     8: "💅"
 };
 
-/* ----------------------------
-       NAVIGATION
------------------------------*/
-function goHome() {
-    location.reload();
-}
 
+// ─────────────────────────────────────────
+// 🌸 NAVIGATION
+// ─────────────────────────────────────────
 function showClient() {
     document.getElementById("choiceSection").style.display = "none";
     document.getElementById("clientSection").style.display = "block";
@@ -59,10 +59,20 @@ function showPro() {
     document.getElementById("proSection").style.display = "block";
 }
 
-/* ----------------------------
-       CLIENTE : LOGIN/CREATE
------------------------------*/
-async function loginOrCreateClient() {
+function goHome() {
+    location.reload();
+}
+
+// Rendre les fonctions accessibles à l’HTML
+window.showClient = showClient;
+window.showPro = showPro;
+window.goHome = goHome;
+
+
+// ─────────────────────────────────────────
+// 👩‍🦰 CLIENTE : LOGIN OU CRÉATION
+// ─────────────────────────────────────────
+window.loginOrCreateClient = async function () {
     let prenom = document.getElementById("prenom").value.trim();
     let nom = document.getElementById("nom").value.trim();
     let email = document.getElementById("email").value.trim().toLowerCase();
@@ -72,7 +82,6 @@ async function loginOrCreateClient() {
         return;
     }
 
-    // Chercher si cliente existe
     const q = query(
         collection(db, "clients"),
         where("prenom", "==", prenom),
@@ -86,7 +95,6 @@ async function loginOrCreateClient() {
     if (!snap.empty) {
         id = snap.docs[0].id;
     } else {
-        // Nouvelle cliente
         const newDoc = await addDoc(collection(db, "clients"), {
             prenom,
             nom,
@@ -97,21 +105,21 @@ async function loginOrCreateClient() {
     }
 
     showClientCard(id);
-}
+};
 
-/* ----------------------------
-      CLIENTE : AFFICHE CARTE
------------------------------*/
+
+// ─────────────────────────────────────────
+// 💳 AFFICHAGE CARTE CLIENTE
+// ─────────────────────────────────────────
 async function showClientCard(id) {
-    const clientRef = doc(db, "clients", id);
-    const clientSnap = await getDoc(clientRef);
+    const data = await getDoc(doc(db, "clients", id));
 
-    if (!clientSnap.exists()) return;
+    if (!data.exists()) return;
 
-    let c = clientSnap.data();
+    let c = data.data();
 
     document.getElementById("clientCard").style.display = "block";
-    document.getElementById("clientName").textContent = c.prenom + " " + c.nom;
+    document.getElementById("clientName").textContent = `${c.prenom} ${c.nom}`;
     document.getElementById("stampCount").textContent = c.tampons;
 
     document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
@@ -121,13 +129,16 @@ async function showClientCard(id) {
     });
 }
 
-/* ----------------------------
-       PRO : LOGIN
------------------------------*/
+
+// ─────────────────────────────────────────
+// 🧑‍💼 PRO : LOGIN
+// ─────────────────────────────────────────
 const PRO_PASSWORD = "1234";
 
-function loginPro() {
-    if (document.getElementById("proPassword").value !== PRO_PASSWORD) {
+window.loginPro = function () {
+    let pwd = document.getElementById("proPassword").value;
+
+    if (pwd !== PRO_PASSWORD) {
         alert("Mot de passe incorrect");
         return;
     }
@@ -135,12 +146,13 @@ function loginPro() {
     document.getElementById("proPassword").style.display = "none";
     document.getElementById("loginProBtn").style.display = "none";
     document.getElementById("proDashboard").style.display = "block";
-}
+};
 
-/* ----------------------------
-      PRO : RECHERCHE CLIENT
------------------------------*/
-async function searchClients() {
+
+// ─────────────────────────────────────────
+// 🔍 PRO : RECHERCHE CLIENTES
+// ─────────────────────────────────────────
+window.searchClients = async function () {
     let search = document.getElementById("proSearch").value.toLowerCase();
     let results = document.getElementById("proResults");
     results.innerHTML = "";
@@ -151,28 +163,31 @@ async function searchClients() {
         let c = docu.data();
         let id = docu.id;
 
-        let text = (c.prenom + " " + c.nom + " " + c.email).toLowerCase();
+        let match = (c.prenom + " " + c.nom + " " + c.email).toLowerCase();
 
-        if (text.includes(search)) {
+        if (match.includes(search)) {
             let div = document.createElement("div");
             div.className = "search-item";
             div.textContent = `${c.prenom} ${c.nom} (${c.email})`;
+
             div.onclick = () => selectProClient(id);
+
             results.appendChild(div);
         }
     });
-}
+};
 
-/* ----------------------------
-      PRO : VOIR CLIENT
------------------------------*/
+
+// ─────────────────────────────────────────
+// 📝 PRO : AFFICHER CLIENTE
+// ─────────────────────────────────────────
 async function selectProClient(id) {
     document.getElementById("selectedClientId").value = id;
 
     const snap = await getDoc(doc(db, "clients", id));
     let c = snap.data();
 
-    document.getElementById("proClientName").textContent = c.prenom + " " + c.nom;
+    document.getElementById("proClientName").textContent = `${c.prenom} ${c.nom}`;
     document.getElementById("proStampCount").textContent = c.tampons;
 
     document.querySelectorAll("#proDashboard .stamp").forEach(stamp => {
@@ -182,34 +197,39 @@ async function selectProClient(id) {
     });
 }
 
-/* ----------------------------
-      PRO : AJOUT TAMPON
------------------------------*/
-async function addStamp() {
-    let id = document.getElementById("selectedClientId").value;
-    const ref = doc(db, "clients", id);
 
+// ─────────────────────────────────────────
+// ➕ PRO : AJOUTER TAMPON
+// ─────────────────────────────────────────
+window.addStamp = async function () {
+    let id = document.getElementById("selectedClientId").value;
+
+    const ref = doc(db, "clients", id);
     const snap = await getDoc(ref);
     let current = snap.data().tampons;
 
     await updateDoc(ref, { tampons: Math.min(8, current + 1) });
 
     selectProClient(id);
-}
+};
 
-/* ----------------------------
-      PRO : RESET
------------------------------*/
-async function resetCard() {
+
+// ─────────────────────────────────────────
+// 🔄 PRO : RESET
+// ─────────────────────────────────────────
+window.resetCard = async function () {
     let id = document.getElementById("selectedClientId").value;
-    await updateDoc(doc(db, "clients", id), { tampons: 0 });
-    selectProClient(id);
-}
 
-/* ----------------------------
-      PRO : SUPPRESSION
------------------------------*/
-async function deleteClient() {
+    await updateDoc(doc(db, "clients", id), { tampons: 0 });
+
+    selectProClient(id);
+};
+
+
+// ─────────────────────────────────────────
+// 🗑 PRO : SUPPRIMER CLIENTE
+// ─────────────────────────────────────────
+window.deleteClient = async function () {
     let id = document.getElementById("selectedClientId").value;
 
     if (!confirm("Supprimer cette cliente ?")) return;
@@ -219,4 +239,4 @@ async function deleteClient() {
     alert("Cliente supprimée.");
     document.getElementById("proClientName").textContent = "";
     document.getElementById("proResults").innerHTML = "";
-}
+};
