@@ -1,3 +1,15 @@
+// 🔥 Import Firebase (OBLIGATOIRE avec type="module")
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+    getFirestore, collection, addDoc, getDocs, getDoc, doc,
+    updateDoc, deleteDoc, query, where
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+
 /* ----------------------------
       CONFIG FIREBASE
 -----------------------------*/
