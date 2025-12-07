@@ -157,3 +157,10 @@ input {
 }
 
 
+#clientLogout {
+    width: 90%;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
