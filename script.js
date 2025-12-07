@@ -11,9 +11,9 @@ const firebaseConfig = {
   measurementId: "G-6BYHZ8SN14"
 };
 
-// Initialisation Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const analytics = getAnalytics(app);
 
 /* ----------------------------
      SYSTEME DES TAMPONS
