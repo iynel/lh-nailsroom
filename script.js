@@ -131,6 +131,8 @@ async function showClientCard(id) {
         let n = parseInt(stamp.dataset.num);
         stamp.textContent = n <= c.tampons ? STAMPS[n] : "";
         stamp.classList.toggle("active", n <= c.tampons);
+
+    document.getElementById("clientLogout").style.display = "block";
     });
 }
 
