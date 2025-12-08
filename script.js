@@ -132,7 +132,6 @@ async function showClientCard(id) {
         stamp.textContent = n <= c.tampons ? STAMPS[n] : "";
         stamp.classList.toggle("active", n <= c.tampons);
 
-    document.getElementById("clientLogout").style.display = "block";
     });
 }
 
