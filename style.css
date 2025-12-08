@@ -14,12 +14,15 @@ body {
 .card {
     width: 90%;
     max-width: 420px;
-    background: #ffffff;
     padding: 25px;
-    border-radius: 25px;
+    border-radius: 0; /* plus d'arrondi général */
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+    background: transparent !important; /* 🔥 plus de fond blanc */
+    box-shadow: none !important; /* 🔥 plus d'ombre */
+    border: none !important; /* 🔥 aucune bordure */
 }
+
 
 .title {
     color: #d0468c;
