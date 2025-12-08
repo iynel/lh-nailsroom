@@ -271,3 +271,23 @@ window.logoutPro = function () {
     document.getElementById("proResults").innerHTML = "";
     document.getElementById("proClientName").textContent = "";
 };
+
+
+window.goHome = function () {
+    document.getElementById("choiceSection").style.display = "block";
+    document.getElementById("clientSection").style.display = "none";
+    document.getElementById("proSection").style.display = "none";
+
+    // masque la carte fidélité
+    document.getElementById("clientCard").style.display = "none";
+
+    // masque le bouton déconnexion cliente
+    document.getElementById("clientLogout").style.display = "none";
+
+    // réinitialise le formulaire cliente
+    document.getElementById("clientForm").style.display = "block";
+    document.getElementById("prenom").value = "";
+    document.getElementById("nom").value = "";
+    document.getElementById("email").value = "";
+};
+
