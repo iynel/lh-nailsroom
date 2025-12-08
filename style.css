@@ -23,6 +23,15 @@ body {
     border: none !important; /* 🔥 aucune bordure */
 }
 
+.client-card {
+    background: #ffffff;        /* Fond blanc uniquement pour la carte */
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 420px;
+}
+
 
 .title {
     color: #d0468c;
@@ -171,7 +180,6 @@ input {
 #clientCard {
     width: 90%;
     max-width: 420px;
-    background: #fff;
 }
 
 /* Le bouton déconnexion centré sous la carte */
