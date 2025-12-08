@@ -157,6 +157,20 @@ input {
 }
 
 
+/* Centre tout le contenu dans la page */
+#clientSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* La carte reste centrée */
+#clientCard {
+    width: 90%;
+    max-width: 420px;
+}
+
+/* Le bouton déconnexion centré sous la carte */
 #clientLogout {
     width: 90%;
     max-width: 420px;
