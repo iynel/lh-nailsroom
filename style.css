@@ -171,6 +171,7 @@ input {
 #clientCard {
     width: 90%;
     max-width: 420px;
+    background: #fff;
 }
 
 /* Le bouton déconnexion centré sous la carte */
