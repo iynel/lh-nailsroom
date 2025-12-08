@@ -1,78 +1,87 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fidélité - LH Nailsroom</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <!-- BLOC PRINCIPAL -->
-    <div class="card">
-
-        <!-- CHOIX -->
-        <div id="choiceSection">
-            <h2 class="title">Bienvenue !</h2>
-            <p class="subtitle">Choisissez votre espace</p>
-            <button class="btn" onclick="showClient()">Cliente</button>
-            <button class="btn" onclick="showPro()">Prothésiste</button>
-        </div>
-
-        <!-- SECTION CLIENTE -->
-        <div id="clientSection" style="display:none; text-align:center;">
-
-            <!-- FORMULAIRE (caché après login) -->
-            <div id="clientForm">
-                <h2 class="title">Espace Cliente</h2>
-
-                <input class="input" id="prenom" placeholder="Prénom">
-                <input class="input" id="nom" placeholder="Nom">
-                <input class="input" id="email" placeholder="Email">
-
-                <button class="btn" onclick="loginOrCreateClient()">Accéder à ma carte</button>
-                <button class="btn reset" onclick="goHome()">Retour</button>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fidélité - LH Nailsroom</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+    
+        <div class="card">
+    
+            <!-- CHOIX -->
+            <div id="choiceSection">
+                <h2 class="title">Bienvenue !</h2>
+                <p class="subtitle">Choisissez votre espace</p>
+                <button class="btn" onclick="showClient()">Cliente</button>
+                <button class="btn" onclick="showPro()">Prothésiste</button>
             </div>
-
-            <!-- CARTE FIDÉLITÉ -->
-            <div id="clientCard" class="innerCard" style="display:none; margin-top:20px;">
-                <h2 class="title" id="clientName"></h2>
-
-                <div class="stamp-container">
-                    <div class="stamp" data-num="1"></div>
-                    <div class="stamp" data-num="2"></div>
-                    <div class="stamp" data-num="3"></div>
-                    <div class="stamp" data-num="4"></div>
-                    <div class="stamp" data-num="5"></div>
-                    <div class="stamp" data-num="6"></div>
-                    <div class="stamp" data-num="7"></div>
-                    <div class="stamp" data-num="8"></div>
+    
+            <!-- SECTION CLIENTE -->
+            <div id="clientSection" style="display:none; text-align:center;">
+            
+                <!-- FORMULAIRE (caché après connexion) -->
+                <div id="clientForm">
+                    <h2 class="title">Espace Cliente</h2>
+            
+                    <input class="input" id="prenom" placeholder="Prénom">
+                    <input class="input" id="nom" placeholder="Nom">
+                    <input class="input" id="email" placeholder="Email">
+            
+                    <button class="btn" onclick="loginOrCreateClient()">Accéder à ma carte</button>
+                    <button class="btn reset" onclick="goHome()">Retour</button>
                 </div>
+            
+                <!-- CARTE FIDÉLITÉ -->
+                <div id="clientCard" class="card" style="display:none; margin: 0 auto; margin-top:20px;">
+                    <h2 class="title" id="clientName"></h2>
+            
+                    <div class="stamp-container">
+                        <div class="stamp" data-num="1"></div>
+                        <div class="stamp" data-num="2"></div>
+                        <div class="stamp" data-num="3"></div>
+                        <div class="stamp" data-num="4"></div>
+                        <div class="stamp" data-num="5"></div>
+                        <div class="stamp" data-num="6"></div>
+                        <div class="stamp" data-num="7"></div>
+                        <div class="stamp" data-num="8"></div>
+                    </div>
+                </div>
+            
             </div>
-        </div>
 
-        <!-- SECTION PRO -->
+            <!-- BOUTON DECONNEXION en dehors de la carte -->
+                <button class="btn reset" id="clientLogout" style="display:none; margin-top:20px;">
+                    Déconnexion
+                </button>
+
+    
+    
+    
+        <!-- PRO -->
         <div id="proSection" style="display:none;">
             <h2 class="title">Connexion Pro</h2>
             <input class="input" type="password" id="proPassword" placeholder="Mot de passe">
             <button class="btn" id="loginProBtn" onclick="loginPro()">Connexion</button>
             <button class="btn reset" onclick="goHome()">Retour</button>
-
+    
+            <!-- DASHBOARD -->
             <div id="proDashboard" style="display:none; margin-top:20px;">
                 <h2 class="title">Gestion des clientes</h2>
-
+    
                 <input class="input" id="proSearch" placeholder="Rechercher une cliente..." oninput="searchClients()">
                 <div id="proResults"></div>
-
+    
                 <input type="hidden" id="selectedClientId">
-
+    
                 <button class="btn" onclick="addStamp()">Ajouter un tampon</button>
                 <button class="btn reset" onclick="resetCard()">Réinitialiser</button>
                 <button class="btn reset" onclick="deleteClient()">Supprimer</button>
                 <button class="btn reset" onclick="logoutPro()">Déconnexion</button>
-
+    
                 <h3 class="subtitle" id="proClientName"></h3>
-
+    
                 <div class="stamp-container">
                     <div class="stamp" data-num="1"></div>
                     <div class="stamp" data-num="2"></div>
@@ -83,23 +92,19 @@
                     <div class="stamp" data-num="7"></div>
                     <div class="stamp" data-num="8"></div>
                 </div>
-
+    
                 <p>Tampons : <span id="proStampCount">0</span> / 8</p>
-
+    
                 <p class="reward-msg">
                     🎁 Au dernier tampon, vous bénéficiez de <strong>-10€</strong> sur votre prochaine pose !
                 </p>
+    
             </div>
         </div>
-
+    
     </div>
-
-    <!-- 🟣 BOUTON DECONNEXION EN DEHORS DE LA CARTE 🟣 -->
-    <button class="btn reset" id="clientLogout" style="display:none; width:90%; max-width:420px; margin:20px auto; display:block;">
-        Déconnexion
-    </button>
-
+    
     <script type="module" src="script.js"></script>
-
-</body>
+    
+    </body>
 </html>
