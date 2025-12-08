@@ -18,10 +18,10 @@
                 <button class="btn" onclick="showPro()">Prothésiste</button>
             </div>
     
-            <!-- CLIENTE -->
-            <div id="clientSection" style="display:none;">
-    
-                <!-- FORMULAIRE (caché après login) -->
+            <!-- SECTION CLIENTE -->
+            <div id="clientSection" style="display:none; text-align:center;">
+            
+                <!-- FORMULAIRE (caché après connexion) -->
                 <div id="clientForm">
                     <h2 class="title">Espace Cliente</h2>
             
@@ -32,11 +32,11 @@
                     <button class="btn" onclick="loginOrCreateClient()">Accéder à ma carte</button>
                     <button class="btn reset" onclick="goHome()">Retour</button>
                 </div>
-    
+            
                 <!-- CARTE FIDÉLITÉ -->
-                <div id="clientCard" style="display:none; margin-top:20px;">
+                <div id="clientCard" class="card" style="display:none; margin: 0 auto; margin-top:20px;">
                     <h2 class="title" id="clientName"></h2>
-    
+            
                     <div class="stamp-container">
                         <div class="stamp" data-num="1"></div>
                         <div class="stamp" data-num="2"></div>
@@ -48,13 +48,14 @@
                         <div class="stamp" data-num="8"></div>
                     </div>
                 </div>
+            
+                <!-- BOUTON DECONNEXION en dehors de la carte -->
+                <button class="btn reset" id="clientLogout" style="display:none; margin-top:20px;">
+                    Déconnexion
+                </button>
+            
             </div>
-        </div>
-    
-    <!-- ❗ BOUTON DÉCONNEXION EN DEHORS DE LA CARTE ❗ -->
-    <button class="btn reset" id="clientLogout" style="display:none; margin-top:25px;">
-        Déconnexion
-    </button>
+
     
     
     
