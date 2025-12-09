@@ -27,12 +27,23 @@ body {
 
 /* CARTE FIDÉLITÉ → seul bloc avec fond blanc */
 .client-card {
-    background: #ffffff;
+    background: #ffffff;        /* Fond blanc uniquement pour la carte */
     padding: 25px;
     border-radius: 25px;
-    margin-top: 20px;
+    width: 100%;                /* ✅ même largeur que les boutons */
+    max-width: 420px;           /* comme le conteneur principal */
+    margin: 20px auto 0 auto;   /* centrée */
+}
+
+#clientCard {
+    width: 90%;
+    max-width: 420px;
+}
+
+
+#proSearch {
     width: 100%;
-    text-align: center;
+    box-sizing: border-box;
 }
 
 /* TITRES */
@@ -46,14 +57,30 @@ body {
     color: #555;
 }
 
-/* INPUT */
+/* INPUTS */
 .input {
+    display: block;
     width: 100%;
+    box-sizing: border-box;
     padding: 12px;
-    margin-top: 10px;
     border-radius: 12px;
     border: 2px solid #f7c5d7;
+    margin-top: 10px;
     font-size: 1rem;
+}
+
+/* Pour être sûre que tous les <input> suivent la même règle si jamais */
+input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Effet focus (on garde ton style) */
+.input:focus {
+    outline: none;
+    border-color: #e567a3;
+    box-shadow: 0 0 8px rgba(229, 103, 163, 0.4);
+    transition: 0.2s;
 }
 
 /* BOUTONS */
