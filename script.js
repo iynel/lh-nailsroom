@@ -278,16 +278,13 @@ window.goHome = function () {
     document.getElementById("clientSection").style.display = "none";
     document.getElementById("proSection").style.display = "none";
 
-    // masque la carte fidélité
+    // Reset interface cliente
     document.getElementById("clientCard").style.display = "none";
-
-    // masque le bouton déconnexion cliente
     document.getElementById("clientLogout").style.display = "none";
-
-    // réinitialise le formulaire cliente
     document.getElementById("clientForm").style.display = "block";
-    document.getElementById("prenom").value = "";
-    document.getElementById("nom").value = "";
-    document.getElementById("email").value = "";
-};
 
+    // Reset formulaires
+    ["prenom", "nom", "email"].forEach(id => {
+        document.getElementById(id).value = "";
+    });
+};
