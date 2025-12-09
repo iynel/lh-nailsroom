@@ -35,6 +35,23 @@ body {
     text-align: center;
 }
 
+/* Uniformiser la largeur de la carte avec les boutons */
+.client-card {
+    width: 90%;
+    max-width: 420px;
+    margin: 20px auto 0 auto;
+    padding: 25px;
+    border-radius: 25px;
+    background: white;
+}
+
+/* Empêcher la carte mère (.card) d'avoir des largeurs bizarres */
+.card {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
 /* TITRES */
 .title {
     color: #d0468c;
