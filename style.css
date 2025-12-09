@@ -35,23 +35,6 @@ body {
     text-align: center;
 }
 
-/* Uniformiser la largeur de la carte avec les boutons */
-.client-card {
-    width: 90%;
-    max-width: 420px;
-    margin: 20px auto 0 auto;
-    padding: 25px;
-    border-radius: 25px;
-    background: white;
-}
-
-/* Empêcher la carte mère (.card) d'avoir des largeurs bizarres */
-.card {
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
-}
-
 /* TITRES */
 .title {
     color: #d0468c;
@@ -66,26 +49,24 @@ body {
 /* INPUT */
 .input {
     width: 100%;
-    max-width: 420px;
-    padding: 14px;
+    padding: 12px;
+    margin-top: 10px;
     border-radius: 12px;
     border: 2px solid #f7c5d7;
-    margin-top: 10px;
     font-size: 1rem;
-    display: block;
-    box-sizing: border-box;
 }
 
+/* BOUTONS */
 .btn {
     width: 100%;
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #e567a3;
+    color: white;
+    font-size: 1.1rem;
+    margin-top: 10px;
 }
-
-
-
 
 .reset {
     background: #7d7d7d;
@@ -120,13 +101,3 @@ body {
     background: #ffc0db;
     border: 2px solid #d0468c;
 }
-
-
-
-#proSection .input {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-
