@@ -47,25 +47,17 @@ body {
 }
 
 /* INPUT */
-.input {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 12px;
-    border: 2px solid #f7c5d7;
-    font-size: 1rem;
-}
-
-/* BOUTONS */
+/* Harmonisation largeur inputs + boutons */
+.input,
 .btn {
-    width: 100%;
+    width: 90%;
+    max-width: 420px;
     padding: 14px;
     border-radius: 12px;
-    border: none;
-    background: #e567a3;
-    color: white;
-    font-size: 1.1rem;
-    margin-top: 10px;
+    border: 2px solid #f7c5d7;
+    margin: 10px auto;
+    display: block;
+    box-sizing: border-box;
 }
 
 .reset {
