@@ -6,33 +6,36 @@ body {
     font-family: "Poppins", sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
 }
 
-/* CARTE */
-.card {
-    width: 90%;
+/* CONTENEUR GLOBAL */
+.page-container {
+    width: 100%;
     max-width: 420px;
-    padding: 25px;
-    border-radius: 0; /* plus d'arrondi général */
-    text-align: center;
-
-    background: transparent !important; /* 🔥 plus de fond blanc */
-    box-shadow: none !important; /* 🔥 plus d'ombre */
-    border: none !important; /* 🔥 aucune bordure */
+    padding: 20px;
 }
 
+/* BLOCS GÉNÉRIQUES (fond transparent) */
+.card {
+    width: 100%;
+    padding: 25px;
+    text-align: center;
+    background: transparent;
+}
+
+/* CARTE FIDÉLITÉ → seul bloc avec fond blanc */
 .client-card {
-    background: #ffffff;        /* Fond blanc uniquement pour la carte */
-    margin: 20px auto;
+    background: #ffffff;
     padding: 25px;
     border-radius: 25px;
-    width: 90%;
-    max-width: 420px;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
 }
 
-
+/* TITRES */
 .title {
     color: #d0468c;
     font-size: 1.6rem;
@@ -40,18 +43,16 @@ body {
 }
 
 .subtitle {
-    font-size: 1rem;
     color: #555;
-    margin-top: 10px;
 }
 
-/* INPUTS */
+/* INPUT */
 .input {
     width: 100%;
     padding: 12px;
+    margin-top: 10px;
     border-radius: 12px;
     border: 2px solid #f7c5d7;
-    margin-top: 10px;
     font-size: 1rem;
 }
 
@@ -65,24 +66,24 @@ body {
     color: white;
     font-size: 1.1rem;
     margin-top: 10px;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background: #bf4d87;
 }
 
 .reset {
     background: #7d7d7d;
 }
 
-/* TAMPONS EXACTEMENT COMME TON STYLE */
+/* BOUTON déconnexion cliente */
+.logout-btn {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* TAMPONS */
 .stamp-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cases par ligne */
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    justify-items: center;
-    margin: 15px 0;
+    margin-top: 15px;
 }
 
 .stamp {
@@ -94,99 +95,9 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 28px;
-    margin: 5px;
 }
 
 .stamp.active {
     background: #ffc0db;
     border: 2px solid #d0468c;
-    transform: scale(1.05);
-}
-
-.reward-msg {
-    margin-top: 10px;
-    font-size: 0.95rem;
-    color: #d0468c;
-    background: #ffe5ef;
-    padding: 10px;
-    border-radius: 12px;
-    border: 1px solid #f7c5d7;
-}
-
-/* Résultats de recherche dans l'espace pro */
-#proResults {
-    margin-top: 12px;
-}
-
-/* Style d'un résultat (cliente trouvée) */
-.search-item {
-    background: #ffe6f2;                     /* rose clair */
-    padding: 12px;
-    border-radius: 14px;
-    border: 1px solid #e567a3;               /* ton rose principal */
-    margin-top: 8px;
-    font-size: 1rem;
-    color: #d0468c;
-    cursor: pointer;                         /* curseur main */
-    transition: 0.25s ease;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.05);   /* petite ombre douce */
-}
-
-/* Effet hover */
-.search-item:hover {
-    background: #ffd1e8;                     /* rose un peu plus vif */
-    transform: translateY(-3px);             /* petit effet de “soulèvement” */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-    border-color: #bf4d87;                   /* rose foncé hover */
-}
-
-
-#proSearch {
-    width: 100% !important;
-    box-sizing: border-box;
-}
-
-.input {
-    width: 100%;
-    box-sizing: border-box; /* empêche le dépassement */
-    padding: 12px;
-    border-radius: 12px;
-    border: 2px solid #f7c5d7;
-    margin-top: 10px;
-    font-size: 1rem;
-}
-
-input {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.input:focus {
-    outline: none;
-    border-color: #e567a3;
-    box-shadow: 0 0 8px rgba(229, 103, 163, 0.4);
-    transition: 0.2s;
-}
-
-
-/* Centre tout le contenu dans la page */
-#clientSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* La carte reste centrée */
-#clientCard {
-    width: 90%;
-    max-width: 420px;
-}
-
-/* Le bouton déconnexion centré sous la carte */
-#clientLogout {
-    width: 90%;
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
 }
