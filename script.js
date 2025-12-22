@@ -287,6 +287,8 @@ window.goHome = function () {
     document.getElementById("choiceSection").style.display = "block";
     document.getElementById("clientSection").style.display = "none";
     document.getElementById("proSection").style.display = "none";
+    document.getElementById("clientInsta").style.display = "none";
+
 
     // Reset interface cliente
     document.getElementById("clientCard").style.display = "none";
