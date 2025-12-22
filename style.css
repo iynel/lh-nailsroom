@@ -27,19 +27,16 @@ body {
 
 /* CARTE FIDÉLITÉ → seul bloc avec fond blanc */
 .client-card {
+    width: 100%;               /* ✅ même largeur que les boutons */
+    box-sizing: border-box;    /* ✅ padding inclus dans la largeur */
     background: #ffffff;
     padding: 25px;
     border-radius: 25px;
-    width: 100%;              /* ✅ même largeur que les boutons */
-    margin: 20px auto 0 auto; /* centrée */
-    text-align: center;       /* ✅ centre le nom */
+    margin: 20px auto 0 auto;
+    text-align: center;        /* ✅ centre le nom */
 }
 
-/* ⚠️ IMPORTANT : on supprime la règle qui réduit la carte */
-#clientCard {
-    width: 100% !important;   /* ✅ même largeur que le bouton déconnexion */
-    max-width: 420px;
-}
+
 
 /* TAMPONS */
 .stamp-container {
@@ -47,9 +44,11 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-top: 15px;
-    justify-items: center;    /* ✅ centre chaque tampon */
-    align-items: center;
+
+    justify-items: center;  /* ✅ centre chaque tampon dans sa case */
+    align-items: center;    /* ✅ centre verticalement */
 }
+
 
 /* Tampon */
 .stamp {
@@ -125,7 +124,8 @@ input {
 
 /* BOUTON déconnexion cliente */
 .logout-btn {
-    margin-top: 20px;
     width: 100%;
+    box-sizing: border-box;
+    margin-top: 20px;
 }
 
