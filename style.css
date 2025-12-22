@@ -135,3 +135,48 @@ input {
     margin-top: 20px;
 }
 
+
+/* Résultats de recherche (côté PRO) */
+#proResults{
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;         /* centre les cadres */
+    width: 100%;
+}
+
+/* Chaque cliente trouvée = un “cadre” */
+#proResults .search-item{
+    width: 100 100%;
+    max-width: 420px;            /* même largeur que tes boutons/inputs */
+    box-sizing: border-box;
+
+    background: #ffffff;         /* cadre blanc */
+    border: 2px solid #f7c5d7;   /* bordure rose clair */
+    border-radius: 14px;
+    padding: 12px 14px;
+
+    color: #d0468c;
+    font-size: 1rem;
+    text-align: left;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+
+/* Hover (sur ordi) */
+#proResults .search-item:hover{
+    transform: translateY(-2px);
+    border-color: #bf4d87;
+    box-shadow: 0 10px 18px rgba(0,0,0,0.10);
+}
+
+
+#proResults{
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
