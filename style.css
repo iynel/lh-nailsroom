@@ -27,17 +27,40 @@ body {
 
 /* CARTE FIDÉLITÉ → seul bloc avec fond blanc */
 .client-card {
-    background: #ffffff;        /* Fond blanc uniquement pour la carte */
+    background: #ffffff;
     padding: 25px;
     border-radius: 25px;
-    width: 100%;                /* ✅ même largeur que les boutons */
-    max-width: 420px;           /* comme le conteneur principal */
-    margin: 20px auto 0 auto;   /* centrée */
+    width: 100%;              /* ✅ même largeur que les boutons */
+    margin: 20px auto 0 auto; /* centrée */
+    text-align: center;       /* ✅ centre le nom */
 }
 
+/* ⚠️ IMPORTANT : on supprime la règle qui réduit la carte */
 #clientCard {
-    width: 100%;
+    width: 100% !important;   /* ✅ même largeur que le bouton déconnexion */
     max-width: 420px;
+}
+
+/* TAMPONS */
+.stamp-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    justify-items: center;    /* ✅ centre chaque tampon */
+    align-items: center;
+}
+
+/* Tampon */
+.stamp {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    border: 2px dashed #d0468c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
 }
 
 
@@ -106,26 +129,3 @@ input {
     width: 100%;
 }
 
-/* TAMPONS */
-.stamp-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: 15px;
-}
-
-.stamp {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    border: 2px dashed #d0468c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 28px;
-}
-
-.stamp.active {
-    background: #ffc0db;
-    border: 2px solid #d0468c;
-}
