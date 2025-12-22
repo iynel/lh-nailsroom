@@ -27,7 +27,7 @@ body {
 
 /* CARTE FIDÉLITÉ → seul bloc avec fond blanc */
 .client-card {
-    width: 100%;               /* ✅ même largeur que les boutons */
+    width: 90%;               /* ✅ même largeur que les boutons */
     box-sizing: border-box;    /* ✅ padding inclus dans la largeur */
     background: #ffffff;
     padding: 25px;
