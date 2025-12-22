@@ -125,7 +125,17 @@ async function showClientCard(id) {
     document.getElementById("clientCard").style.display = "block";
     document.getElementById("clientLogout").style.display = "block";
 
-    document.getElementById("clientName").textContent = `${c.prenom} ${c.nom}`;
+    // Afficher Instagram en dehors de la carte
+    const instaHandle = "@lh.nailsroom";
+    const instaUrl = "https://www.instagram.com/lh.nailsroom/";
+    
+    document.getElementById("clientInsta").style.display = "block";
+    const link = document.getElementById("instaLink");
+    link.textContent = instaHandle;
+    link.href = instaUrl;
+
+
+    document.getElementById("clientName").textContent = "LH Nailsroom";
 
     document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
         let n = parseInt(stamp.dataset.num);
