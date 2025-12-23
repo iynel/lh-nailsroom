@@ -43,7 +43,7 @@ const MAX_STAMPS = 8;
 let unsubscribeClientLive = null;
 
 // ─────────────────────────────────────────
-// 🧩 Helpers DOM (évite les crash si un id manque)
+// 🧩 Helpers DOM
 // ─────────────────────────────────────────
 const $ = (id) => document.getElementById(id);
 
@@ -63,26 +63,23 @@ function showPro() {
 }
 
 function goHome() {
-  // stop live listener
   if (unsubscribeClientLive) {
     unsubscribeClientLive();
     unsubscribeClientLive = null;
   }
 
-  // sections
   $("choiceSection").style.display = "block";
   $("clientSection").style.display = "none";
   $("proSection").style.display = "none";
 
-  // reset cliente
   if ($("clientCard")) $("clientCard").style.display = "none";
   if ($("clientLogout")) $("clientLogout").style.display = "none";
   if ($("clientForm")) $("clientForm").style.display = "block";
+
   ["prenom", "nom", "email"].forEach((id) => {
     if ($(id)) $(id).value = "";
   });
 
-  // reset pro
   if ($("proDashboard")) $("proDashboard").style.display = "none";
   if ($("proPassword")) {
     $("proPassword").value = "";
@@ -94,7 +91,6 @@ function goHome() {
   if ($("selectedClientId")) $("selectedClientId").value = "";
 }
 
-// rendre accessible aux onclick HTML
 window.showClient = showClient;
 window.showPro = showPro;
 window.goHome = goHome;
@@ -134,7 +130,6 @@ window.loginOrCreateClient = async function () {
     id = newDoc.id;
   }
 
-  // afficher la carte + live
   showClientCardLive(id);
 };
 
@@ -142,11 +137,8 @@ window.loginOrCreateClient = async function () {
 // 💳 CLIENTE : affichage + LIVE
 // ─────────────────────────────────────────
 function renderClientCardData(c) {
-  // IMPORTANT : tu m'as dit que tu veux afficher le nom de l'entreprise à la place
-  // Donc on met un titre fixe (tu peux changer le texte)
   if ($("clientName")) $("clientName").textContent = "LH Nailsroom";
 
-  // stamps
   document.querySelectorAll("#clientCard .stamp").forEach((stamp) => {
     const n = parseInt(stamp.dataset.num, 10);
     const active = n <= (c.tampons || 0);
@@ -158,7 +150,6 @@ function renderClientCardData(c) {
       return;
     }
 
-    // dernier tampon = -10€ en rose
     if (n === 8) {
       stamp.innerHTML = `<span class="reward-stamp">${STAMPS[n]}</span>`;
     } else {
@@ -167,8 +158,7 @@ function renderClientCardData(c) {
   });
 }
 
-async function showClientCardLive(id) {
-  // stop ancien live si on relog
+function showClientCardLive(id) {
   if (unsubscribeClientLive) {
     unsubscribeClientLive();
     unsubscribeClientLive = null;
@@ -180,7 +170,6 @@ async function showClientCardLive(id) {
 
   const ref = doc(db, "clients", id);
 
-  // Live listener
   unsubscribeClientLive = onSnapshot(ref, (snap) => {
     if (!snap.exists()) return;
     renderClientCardData(snap.data());
@@ -259,7 +248,6 @@ async function selectProClient(id) {
       return;
     }
 
-    // dernier tampon = -10€ en rose aussi côté pro
     if (n === 8) {
       stamp.innerHTML = `<span class="reward-stamp">${STAMPS[n]}</span>`;
     } else {
@@ -282,8 +270,6 @@ window.addStamp = async function () {
   const current = snap.data().tampons || 0;
 
   await updateDoc(ref, { tampons: Math.min(MAX_STAMPS, current + 1) });
-
-  // refresh pro view
   selectProClient(id);
 };
 
