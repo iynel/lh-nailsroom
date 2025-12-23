@@ -188,16 +188,8 @@ input {
     font-weight: 700;
     font-size: 1.1rem;
     background: #ffe5ef;
-    border: 2px solid #d0468c;
+    border: 2px dashed #d0468c;
 }
 
 
-.reward-stamp {
-    animation: pop 0.3s ease;
-}
-
-@keyframes pop {
-    0% { transform: scale(0.9); }
-    100% { transform: scale(1); }
-}
 
