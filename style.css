@@ -182,12 +182,11 @@ input {
 
 
 
-/* 🎁 Dernier tampon : -10€ */
-.reward-stamp {
-    color: #d0468c;              /* rose LH Nailsroom */
+/* Dernier tampon -10€ */
+.stamp.reward {
+    color: #d0468c;              /* rose */
     font-weight: 700;
     font-size: 1.1rem;
+    border-style: solid;
     background: #ffe5ef;
-    border: 2px solid #d0468c;
 }
-
