@@ -137,7 +137,7 @@ async function showClientCard(id) {
 
     document.getElementById("clientName").textContent = "LH Nailsroom";
 
-    document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
+document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
     let n = parseInt(stamp.dataset.num);
 
     if (n <= c.tampons) {
@@ -155,6 +155,7 @@ async function showClientCard(id) {
         stamp.classList.remove("active", "reward-stamp");
     }
 });
+
 
 }
 
