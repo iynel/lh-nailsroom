@@ -182,11 +182,9 @@ input {
 
 
 
-/* Dernier tampon -10€ */
-.stamp.reward {
-    color: #d0468c;              /* rose */
-    font-weight: 700;
-    font-size: 1.1rem;
-    border-style: solid;
-    background: #ffe5ef;
+/* Texte -10€ en rose dans le tampon */
+.reward-stamp {
+  color: #d0468c;
+  font-weight: 700;
+  font-size: 16px;
 }
