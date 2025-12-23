@@ -16,15 +16,14 @@ const firebaseConfig = {
   projectId: "lh-nailsroom",
   storageBucket: "lh-nailsroom.firebasestorage.app",
   messagingSenderId: "147376012584",
-  appId: "1:147376012584:web:a934c3901931d9519ea41d",
-  measurementId: "G-6BYHZ8SN14"
+  appId: "1:147376012584:web:a934c3901931d9519ea41d"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // ─────────────────────────────────────────
-// 💅 TAMPONS (dernier = -10€ en rose)
+// 💅 CONFIG TAMPONS
 // ─────────────────────────────────────────
 const STAMPS = {
   1: "🎀",
@@ -39,12 +38,10 @@ const STAMPS = {
 
 const MAX_STAMPS = 8;
 
-// 🔥 pour le live côté cliente
+// live listener cliente
 let unsubscribeClientLive = null;
 
-// ─────────────────────────────────────────
-// 🧩 Helpers DOM
-// ─────────────────────────────────────────
+// helper DOM
 const $ = (id) => document.getElementById(id);
 
 // ─────────────────────────────────────────
@@ -72,11 +69,12 @@ function goHome() {
   $("clientSection").style.display = "none";
   $("proSection").style.display = "none";
 
+  if ($("clientForm")) $("clientForm").style.display = "block";
   if ($("clientCard")) $("clientCard").style.display = "none";
   if ($("clientLogout")) $("clientLogout").style.display = "none";
-  if ($("clientForm")) $("clientForm").style.display = "block";
+  if ($("clientInsta")) $("clientInsta").style.display = "none";
 
-  ["prenom", "nom", "email"].forEach((id) => {
+  ["prenom", "nom", "email"].forEach(id => {
     if ($(id)) $(id).value = "";
   });
 
@@ -96,7 +94,7 @@ window.showPro = showPro;
 window.goHome = goHome;
 
 // ─────────────────────────────────────────
-// 👩‍🦰 CLIENTE : LOGIN OU CRÉATION
+// 👩‍🦰 CLIENTE : LOGIN / CRÉATION
 // ─────────────────────────────────────────
 window.loginOrCreateClient = async function () {
   const prenom = $("prenom").value.trim();
@@ -116,7 +114,7 @@ window.loginOrCreateClient = async function () {
   );
 
   const snap = await getDocs(q);
-  let id = null;
+  let id;
 
   if (!snap.empty) {
     id = snap.docs[0].id;
@@ -134,14 +132,14 @@ window.loginOrCreateClient = async function () {
 };
 
 // ─────────────────────────────────────────
-// 💳 CLIENTE : affichage + LIVE
+// 💳 CARTE CLIENTE + LIVE
 // ─────────────────────────────────────────
-function renderClientCardData(c) {
-  if ($("clientName")) $("clientName").textContent = "LH Nailsroom";
+function renderClientCard(data) {
+  $("clientName").textContent = "LH Nailsroom";
 
-  document.querySelectorAll("#clientCard .stamp").forEach((stamp) => {
+  document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
     const n = parseInt(stamp.dataset.num, 10);
-    const active = n <= (c.tampons || 0);
+    const active = n <= (data.tampons || 0);
 
     stamp.classList.toggle("active", active);
 
@@ -161,18 +159,22 @@ function renderClientCardData(c) {
 function showClientCardLive(id) {
   if (unsubscribeClientLive) {
     unsubscribeClientLive();
-    unsubscribeClientLive = null;
   }
 
   $("clientForm").style.display = "none";
   $("clientCard").style.display = "block";
   $("clientLogout").style.display = "block";
+  $("clientInsta").style.display = "block";
+
+  // 🔗 lien Instagram
+  const instaLink = $("instaLink");
+  instaLink.href = "https://www.instagram.com/lh.nailsroom/";
 
   const ref = doc(db, "clients", id);
-
-  unsubscribeClientLive = onSnapshot(ref, (snap) => {
-    if (!snap.exists()) return;
-    renderClientCardData(snap.data());
+  unsubscribeClientLive = onSnapshot(ref, snap => {
+    if (snap.exists()) {
+      renderClientCard(snap.data());
+    }
   });
 }
 
@@ -208,10 +210,9 @@ window.searchClients = async function () {
 
   const snap = await getDocs(collection(db, "clients"));
 
-  snap.forEach((docu) => {
+  snap.forEach(docu => {
     const c = docu.data();
     const id = docu.id;
-
     const match = `${c.prenom} ${c.nom} ${c.email}`.toLowerCase();
 
     if (match.includes(search)) {
@@ -234,10 +235,9 @@ async function selectProClient(id) {
   if (!snap.exists()) return;
 
   const c = snap.data();
-
   $("proClientName").textContent = `${c.prenom} ${c.nom}`;
 
-  document.querySelectorAll("#proDashboard .stamp").forEach((stamp) => {
+  document.querySelectorAll("#proDashboard .stamp").forEach(stamp => {
     const n = parseInt(stamp.dataset.num, 10);
     const active = n <= (c.tampons || 0);
 
@@ -261,12 +261,10 @@ async function selectProClient(id) {
 // ─────────────────────────────────────────
 window.addStamp = async function () {
   const id = $("selectedClientId").value;
-  if (!id) return alert("Sélectionne une cliente d'abord.");
+  if (!id) return alert("Sélectionne une cliente.");
 
   const ref = doc(db, "clients", id);
   const snap = await getDoc(ref);
-  if (!snap.exists()) return;
-
   const current = snap.data().tampons || 0;
 
   await updateDoc(ref, { tampons: Math.min(MAX_STAMPS, current + 1) });
@@ -278,7 +276,7 @@ window.addStamp = async function () {
 // ─────────────────────────────────────────
 window.resetCard = async function () {
   const id = $("selectedClientId").value;
-  if (!id) return alert("Sélectionne une cliente d'abord.");
+  if (!id) return;
 
   await updateDoc(doc(db, "clients", id), { tampons: 0 });
   selectProClient(id);
@@ -289,13 +287,11 @@ window.resetCard = async function () {
 // ─────────────────────────────────────────
 window.deleteClient = async function () {
   const id = $("selectedClientId").value;
-  if (!id) return alert("Sélectionne une cliente d'abord.");
+  if (!id) return;
 
   if (!confirm("Supprimer cette cliente ?")) return;
 
   await deleteDoc(doc(db, "clients", id));
-
-  alert("Cliente supprimée.");
   $("proResults").innerHTML = "";
   $("proClientName").textContent = "";
   $("selectedClientId").value = "";
