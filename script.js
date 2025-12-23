@@ -139,26 +139,11 @@ async function showClientCard(id) {
 
     document.getElementById("clientName").textContent = "LH Nailsroom";
 
-document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
-    let n = parseInt(stamp.dataset.num);
-
-    if (n <= c.tampons) {
-        stamp.classList.add("active");
-
-        // 🎁 Dernier tampon = texte -10€
-        if (n === 8) {
-            stamp.textContent = "-10€";
-            stamp.classList.add("reward-stamp");
-        } else {
-            stamp.textContent = STAMPS[n];
-        }
-    } else {
-        stamp.textContent = "";
-        stamp.classList.remove("active", "reward-stamp");
-    }
-});
-
-
+document.querySelectorAll("#clientCard .stamp").forEach(stamp => { 
+    let n = parseInt(stamp.dataset.num); 
+    stamp.textContent = n <= c.tampons ? STAMPS[n] : ""; 
+    stamp.classList.toggle("active", n <= c.tampons); 
+    }); 
 }
 
 
@@ -223,26 +208,12 @@ async function selectProClient(id) {
     document.getElementById("proClientName").textContent = `${c.prenom} ${c.nom}`;
     document.getElementById("proStampCount").textContent = c.tampons;
 
-    document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
-    let n = parseInt(stamp.dataset.num);
-
-    if (n <= c.tampons) {
-        stamp.classList.add("active");
-
-        // 🎁 Dernier tampon = texte -10€
-        if (n === 8) {
-            stamp.textContent = "-10€";
-            stamp.classList.add("reward-stamp");
-        } else {
-            stamp.textContent = STAMPS[n];
-        }
-    } else {
-        stamp.textContent = "";
-        stamp.classList.remove("active", "reward-stamp");
+    document.querySelectorAll("#proDashboard .stamp").forEach(stamp => { 
+        let n = parseInt(stamp.dataset.num); 
+        stamp.textContent = n <= c.tampons ? STAMPS[n] : ""; 
+        stamp.classList.toggle("active", n <= c.tampons); 
+        }); 
     }
-});
-
-}
 
 
 // ─────────────────────────────────────────
