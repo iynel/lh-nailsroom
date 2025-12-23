@@ -139,12 +139,21 @@ async function showClientCard(id) {
 
     document.getElementById("clientName").textContent = "LH Nailsroom";
 
-document.querySelectorAll("#clientCard .stamp").forEach(stamp => { 
-    let n = parseInt(stamp.dataset.num); 
-    stamp.textContent = n <= c.tampons ? STAMPS[n] : ""; 
-    stamp.classList.toggle("active", n <= c.tampons); 
-    }); 
-}
+document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
+    let n = parseInt(stamp.dataset.num);
+
+    stamp.textContent = "";
+    stamp.classList.remove("active", "reward");
+
+    if (n <= c.tampons) {
+        stamp.textContent = STAMPS[n];
+        stamp.classList.add("active");
+
+        if (n === 8) {
+            stamp.classList.add("reward");
+        }
+    }
+});
 
 
 
@@ -208,12 +217,21 @@ async function selectProClient(id) {
     document.getElementById("proClientName").textContent = `${c.prenom} ${c.nom}`;
     document.getElementById("proStampCount").textContent = c.tampons;
 
-    document.querySelectorAll("#proDashboard .stamp").forEach(stamp => { 
-        let n = parseInt(stamp.dataset.num); 
-        stamp.textContent = n <= c.tampons ? STAMPS[n] : ""; 
-        stamp.classList.toggle("active", n <= c.tampons); 
-        }); 
+    document.querySelectorAll("#proDashboard .stamp").forEach(stamp => {
+    let n = parseInt(stamp.dataset.num);
+
+    stamp.textContent = "";
+    stamp.classList.remove("active", "reward");
+
+    if (n <= c.tampons) {
+        stamp.textContent = STAMPS[n];
+        stamp.classList.add("active");
+
+        if (n === 8) {
+            stamp.classList.add("reward");
+        }
     }
+});
 
 
 // ─────────────────────────────────────────
