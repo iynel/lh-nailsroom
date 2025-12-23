@@ -2,13 +2,36 @@
 body {
     margin: 0;
     padding: 0;
-    background: #ffe5ef;
     font-family: "Poppins", sans-serif;
+
+    /* ✅ fond avec ton image */
+    background-image: url("fond-etoiles.jpg");
+    background-size: cover;          /* remplit tout l'écran */
+    background-position: center;     /* bien centré */
+    background-repeat: no-repeat;
+    background-attachment: fixed;    /* joli effet, reste fixe au scroll */
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
 }
+
+body::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 229, 239, 0.35); /* voile rose léger */
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* pour que ton contenu passe au-dessus */
+.page-container{
+    position: relative;
+    z-index: 1;
+}
+
 
 /* CONTENEUR GLOBAL */
 .page-container {
