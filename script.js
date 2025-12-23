@@ -7,7 +7,7 @@ import {
 
 import {
     getFirestore, collection, addDoc, getDocs, getDoc, doc,
-    updateDoc, deleteDoc, query, where, onSnapshot
+    updateDoc, deleteDoc, query, where
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
@@ -30,7 +30,6 @@ const firebaseConfig = {
 // ─────────────────────────────────────────
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-let clientUnsub = null; // pour stopper l'écoute quand on se déconnecte
 
 
 
@@ -160,37 +159,6 @@ document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
 
 
 }
-
-
-// Stop ancienne écoute si existait
-if (clientUnsub) clientUnsub();
-
-// Écoute temps réel du document client
-clientUnsub = onSnapshot(doc(db, "clients", id), (snap) => {
-  if (!snap.exists()) return;
-  const c = snap.data();
-
-  document.getElementById("clientName").textContent = `LH Nailsroom`; // si tu veux afficher l'entreprise
-  // (ou laisse ton titre comme tu veux)
-
-  document.querySelectorAll("#clientCard .stamp").forEach(stamp => {
-    const n = parseInt(stamp.dataset.num);
-
-    stamp.classList.remove("active", "discount");
-    stamp.textContent = "";
-
-    if (n <= c.tampons) {
-      stamp.classList.add("active");
-      if (n === 8) {
-        stamp.textContent = "-10€";
-        stamp.classList.add("discount");
-      } else {
-        stamp.textContent = STAMPS[n];
-      }
-    }
-  });
-});
-
 
 
 
@@ -360,10 +328,5 @@ window.goHome = function () {
     ["prenom", "nom", "email"].forEach(id => {
         document.getElementById(id).value = "";
     });
-
-    if (clientUnsub) {
-  clientUnsub();
-  clientUnsub = null;
-}
 
 };
